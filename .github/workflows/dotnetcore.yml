@@ -44,4 +44,12 @@ jobs:
 
     - name: Deploy with msdeploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="C:\artifact" -verb:sync -dest:contentPath=c:\C:\inetpub\wwwroot\production,computerName=98.70.15.8,userName=vamshi,password=Vamshikrishna@1 -allowUntrusted
+       & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
+    -source:contentPath="C:\artifact" `
+    -verb:sync `
+    -dest:contentPath="C:\inetpub\wwwroot\production" `
+    -computerName="98.70.15.8" `
+    -userName=vamshi `
+    -password=Vamshikrishna@1 `
+    -allowUntrusted
+
