@@ -23,7 +23,7 @@ jobs:
 
     - name: Copy Files
       run: |
-        Copy-Item -Path C:\Users\vamshi\actions-runner\coresonant\eShopOnWeb\eShopOnWeb\* -Destination C:\inetpub\wwwroot\publish -Recurse -Force
+        Copy-Item -Path C:\Users\vamshi\actions-runner\coresonant\eShopOnWeb\eShopOnWeb\* -Destination C:\inetpub\wwwroot\production -Recurse -Force
 
     - name: Archive Artifact
       uses: actions/upload-artifact@v2
