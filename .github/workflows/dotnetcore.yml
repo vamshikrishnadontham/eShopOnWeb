@@ -23,36 +23,4 @@ jobs:
 
     - name: Copy Files
       run: |
-        Copy-Item -Path C:\Users\vamshi\actions-runner\coresonant\eShopOnWeb\eShopOnWeb\* -Destination C:\inetpub\wwwroot\production -Recurse -Force
-
-    - name: Archive Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: eshop on web
-        path: C:\inetpub\wwwroot\publish
-
-  deploy:
-    needs: build
-    runs-on: windows-latest
-    
-    steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: eshop on web
-        path: C:\artifact
-
-    - name: Deploy with msdeploy
-      run: |
-     steps:
-- powershell: |
-    & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-        -source:contentPath="C:\artifact" `
-        -verb:sync `
-        -dest:contentPath="C:\inetpub\wwwroot\production" `
-        -computerName="98.70.15.8" `
-        -userName="vamshi" `
-        -password="Vamshikrishna@1" `
-        -
-
-
+        copy C:\Users\vamshi\actions-runner\coresonant\eShopOnWeb\eShopOnWeb\* C:\inetpub\wwwroot\production
