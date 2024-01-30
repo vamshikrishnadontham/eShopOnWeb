@@ -1,3 +1,4 @@
+
 name: eShopOnWeb Build and Test
 
 on: [push, pull_request, workflow_dispatch]
@@ -20,7 +21,3 @@ jobs:
     
     - name: Test with dotnet
       run: dotnet test ./eShopOnWeb.sln --configuration Release
-
-    - name: Copy Files
-      run: |
-        copy C:\Users\vamshi\actions-runner\coresonant\eShopOnWeb\eShopOnWeb\* C:\inetpub\wwwroot\production
