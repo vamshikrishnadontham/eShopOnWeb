@@ -1,23 +1,54 @@
+name: CI/CD Workflow
 
-name: eShopOnWeb Build and Test
-
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+      - 'releases/**'
+  pull_request:
+    types:
+      - labeled
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Release branch'
+        required: false
 
 jobs:
   build:
-
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '8.0.x'
-        include-prerelease: true
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Build with dotnet
-      run: dotnet build ./eShopOnWeb.sln --configuration Release
-    
-    - name: Test with dotnet
-      run: dotnet test ./eShopOnWeb.sln --configuration Release
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build and Deploy on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          npm run build
+          # Your deployment commands for the main branch here
+          # ...
+
+  release:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Check for label-2
+        id: check_label
+        run: echo "::set-output name=LABEL::$(git log --format=%B -n 1 ${{ github.sha }} | grep -oP '\[label-2\]')"
+
+      - name: Build and Deploy on label-2 or release branch
+        if: steps.check_label.outputs.LABEL == '[label-2]' || (github.event_name == 'workflow_dispatch' && contains(github.event.inputs.branch, 'releases/'))
+        run: |
+          npm run build
+          # Your deployment commands for the release branch here
+          # ...
